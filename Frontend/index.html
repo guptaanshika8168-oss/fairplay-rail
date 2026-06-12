@@ -1,180 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚂 Fairplay Rail - Anti-Bot Demo</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            padding: 30px;
-            background: #f5f5f5;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-        }
-        
-        .info-box {
-            background: #e8f4fd;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #3498db;
-        }
-        
-        #tracking-area {
-            width: 800px;
-            height: 400px;
-            border: 3px solid #3498db;
-            border-radius: 10px;
-            margin: 20px 0;
-            background: white;
-            cursor: crosshair;
-        }
-        
-        #status {
-            font-size: 20px;
-            color: #2c3e50;
-            padding: 15px;
-            background: #fff;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        
-        button {
-            background: #3498db;
-            color: white;
-            padding: 12px 30px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px 5px;
-        }
-        
-        button:hover {
-            background: #2980b9;
-        }
-        
-        .human {
-            color: #27ae60;
-            font-weight: bold;
-        }
-        
-        .bot {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fairplay Rail - Plan My Journey</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f3f6fb;
+      color: #1f2d3d;
+    }
+
+    .topbar {
+      background: #1f4e79;
+      color: white;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: white;
+      color: #1f4e79;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+      opacity: 0.95;
+      flex-wrap: wrap;
+    }
+
+    .navlinks span {
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: 240px;
+      background: linear-gradient(135deg, rgba(31,78,121,0.92), rgba(39,125,184,0.88)),
+                  url('https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=1600&q=80') center/cover;
+      display: flex;
+      align-items: center;
+      padding: 32px 24px;
+      color: white;
+    }
+
+    .hero-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero h1 {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      max-width: 700px;
+      line-height: 1.6;
+      opacity: 0.96;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: -50px auto 40px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+      overflow: hidden;
+      border: 1px solid #e7eef7;
+    }
+
+    .card-header {
+      background: #eaf3ff;
+      padding: 16px 20px;
+      border-bottom: 1px solid #dbe8f6;
+      font-size: 18px;
+      font-weight: 700;
+      color: #20496f;
+    }
+
+    .form-grid {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #35556f;
+    }
+
+    .field input,
+    .field select {
+      padding: 13px 14px;
+      border: 1px solid #cdd9e6;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .actions {
+      padding: 0 22px 22px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #1f4e79;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e8eef5;
+      color: #1f3550;
+    }
+
+    .sections {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .info-box {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid #e7eef7;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+
+    .info-box h3 {
+      font-size: 16px;
+      color: #20496f;
+      margin-bottom: 8px;
+    }
+
+    .info-box p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #52657a;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 16px 18px;
+      border-radius: 12px;
+      background: #fff8e7;
+      border: 1px solid #f1deb0;
+      font-size: 15px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 24px 16px 36px;
+      color: #6b7c8f;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+      .form-grid,
+      .sections {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .navlinks {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>🚂 Fairplay Rail</h1>
-    <h2 style="text-align: center; color: #7f8c8d;">AI-Powered Anti-Bot Engine for IRCTC Tatkal</h2>
-    
-    <div class="info-box">
-        <strong>How to use:</strong> Move your mouse naturally in the box below. 
-        Our AI will analyze your movement and tell if you're a human or bot!
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-badge">F</div>
+      <div>Fairplay Rail</div>
     </div>
-    
-    <div id="tracking-area"></div>
-    
-    <div id="status">👆 Start moving your mouse to begin tracking...</div>
-    
-    <div style="text-align: center; margin: 20px;">
-        <button onclick="stopTracking()">✅ Stop & Test</button>
-        <button onclick="resetTracking()">🔄 Reset</button>
+    <div class="navlinks">
+      <span>Home</span>
+      <span>Book Ticket</span>
+      <span>PNR Status</span>
+      <span>Train Schedule</span>
+      <span>Help</span>
     </div>
-    
-    <div id="result" style="text-align: center; font-size: 24px; margin: 20px; padding: 20px; background: white; border-radius: 10px; display: none;"></div>
-    
-    <script>
-        // Track mouse movement
-        let mouseData = [];
-        let isTracking = false;
-        let startTime = 0;
-        
-        document.getElementById('tracking-area').addEventListener('mousemove', function(event) {
-            if (!isTracking) return;
-            
-            let time = Date.now() - startTime;
-            mouseData.push({
-                x: event.clientX,
-                y: event.clientY,
-                time: time
-            });
-            
-            // Update status
-            document.getElementById('status').innerHTML = 
-                `🖱️ Mouse moves collected: <strong>${mouseData.length}</strong>`;
-        });
-        
-        // Start tracking when user first moves mouse
-        document.getElementById('tracking-area').addEventListener('mouseenter', function() {
-            if (mouseData.length === 0 && !isTracking) {
-                isTracking = true;
-                startTime = Date.now();
-                document.getElementById('status').innerHTML = 
-                    `✅ Tracking started! Move your mouse naturally...`;
-            }
-        });
-        
-        function stopTracking() {
-            isTracking = false;
-            
-            if (mouseData.length < 10) {
-                document.getElementById('result').innerHTML = 
-                    '<span class="bot">⚠️ Please move your mouse more first!</span>';
-                document.getElementById('result').style.display = 'block';
-                return;
-            }
-            
-            // Calculate average speed
-            let speeds = [];
-            for (let i = 1; i < mouseData.length; i++) {
-                let prev = mouseData[i-1];
-                let current = mouseData[i];
-                
-                let distance = Math.sqrt(
-                    Math.pow(current.x - prev.x, 2) + 
-                    Math.pow(current.y - prev.y, 2)
-                );
-                let timeDiff = current.time - prev.time;
-                
-                if (timeDiff > 0) {
-                    let speed = distance / timeDiff;
-                    speeds.push(speed);
-                }
-            }
-            
-            let averageSpeed = speeds.reduce((a, b) => a + b, 0) / speeds.length;
-            
-            // Simple rule: bots move super fast!
-            let resultDiv = document.getElementById('result');
-            if (averageSpeed > 300) {
-                resultDiv.innerHTML = '<span class="bot">🤖 BOT detected! (Speed: ' + averageSpeed.toFixed(2) + ' px/ms)</span>';
-            } else {
-                resultDiv.innerHTML = '<span class="human">✅ HUMAN detected! (Speed: ' + averageSpeed.toFixed(2) + ' px/ms)</span>';
-            }
-            resultDiv.style.display = 'block';
-            
-            document.getElementById('status').innerHTML = 
-                `✅ Collected ${mouseData.length} mouse movements! Result shown below.`;
-            
-            console.log("Mouse data:", mouseData);
-            console.log("Average speed:", averageSpeed);
-        }
-        
-        function resetTracking() {
-            mouseData = [];
-            isTracking = false;
-            document.getElementById('status').innerHTML = 
-                '👆 Start moving your mouse to begin tracking...';
-            document.getElementById('result').style.display = 'none';
-        }
-    </script>
+  </div>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Plan Your Journey</h1>
+      <p>
+        Search trains, choose travel details, and move to a Tatkal-style booking flow.
+        This demo simulates an IRCTC-like experience for detecting bot activity fairly.
+      </p>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">Plan My Travel</div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>From Station</label>
+          <input type="text" placeholder="Enter departure station" />
+        </div>
+
+        <div class="field">
+          <label>To Station</label>
+          <input type="text" placeholder="Enter destination station" />
+        </div>
+
+        <div class="field">
+          <label>Date of Journey</label>
+          <input type="date" />
+        </div>
+
+        <div class="field">
+          <label>Class</label>
+          <select>
+            <option>2A</option>
+            <option>3A</option>
+            <option>SL</option>
+            <option>CC</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>Quota</label>
+          <select>
+            <option>General</option>
+            <option>Tatkal</option>
+            <option>Premium Tatkal</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="goToTatkal()">Proceed</button>
+        <button class="btn btn-secondary" onclick="resetForm()">Reset</button>
+      </div>
+    </div>
+
+    <div class="sections">
+      <div class="info-box">
+        <h3>Fast Booking Flow</h3>
+        <p>Designed to simulate the journey from homepage to Tatkal booking quickly and clearly.</p>
+      </div>
+
+      <div class="info-box">
+        <h3>Fairplay Rail</h3>
+        <p>Our anti-bot engine checks behavior to help separate genuine users from automation.</p>
+      </div>
+
+      <div class="info-box">
+        <h3>Demo Ready</h3>
+        <p>Use this page as the entry screen before moving into the Tatkal booking page.</p>
+      </div>
+    </div>
+
+    <div class="status">
+      Status: Home page ready. Click <b>Proceed</b> to move to the Tatkal booking page.
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2026 Fairplay Rail — IRCTC-style demo for hackathon presentation
+  </div>
+
+  <script>
+    function goToTatkal() {
+      window.location.href = "tatkal.html";
+    }
+
+    function resetForm() {
+      const inputs = document.querySelectorAll("input, select");
+      inputs.forEach(el => {
+        if (el.tagName === "SELECT") el.selectedIndex = 0;
+        else el.value = "";
+      });
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fairplay Rail - Tatkal Booking</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #eef4fb;
+      color: #1f2d3d;
+    }
+
+    .topbar {
+      background: #1f4e79;
+      color: white;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: white;
+      color: #1f4e79;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .timer {
+      background: #ffedd5;
+      color: #9a3412;
+      border: 1px solid #fdba74;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 24px auto;
+      padding: 0 20px 30px;
+    }
+
+    .title {
+      margin-bottom: 16px;
+    }
+
+    .title h1 {
+      font-size: 30px;
+      color: #183a5a;
+      margin-bottom: 6px;
+    }
+
+    .title p {
+      color: #5b6d80;
+      line-height: 1.5;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+      border: 1px solid #e3ebf4;
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: #eaf3ff;
+      padding: 14px 18px;
+      border-bottom: 1px solid #dbe8f6;
+      font-size: 17px;
+      font-weight: 700;
+      color: #20496f;
+    }
+
+    .form-grid {
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #35556f;
+    }
+
+    .field input,
+    .field select {
+      padding: 13px 14px;
+      border: 1px solid #cdd9e6;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .buttons {
+      padding: 0 18px 18px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #1f4e79;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e8eef5;
+      color: #1f3550;
+    }
+
+    .train-list {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .train {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      background: #fbfdff;
+    }
+
+    .train-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .train-name {
+      font-weight: 700;
+      color: #183a5a;
+    }
+
+    .tag {
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .train-meta {
+      color: #5b6d80;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .action-row {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .book-btn {
+      background: #0f766e;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .book-btn:hover {
+      background: #0b5f59;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .info {
+      padding: 18px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #52657a;
+    }
+
+    .result-box {
+      padding: 18px;
+      min-height: 220px;
+    }
+
+    .result-box h3 {
+      color: #20496f;
+      margin-bottom: 10px;
+    }
+
+    .result {
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #f8fbff;
+      border: 1px solid #e3ebf4;
+      line-height: 1.7;
+      min-height: 120px;
+    }
+
+    .human { color: #15803d; font-weight: 700; }
+    .bot { color: #dc2626; font-weight: 700; }
+    .suspicious { color: #d97706; font-weight: 700; }
+
+    .footer {
+      text-align: center;
+      padding: 18px;
+      color: #6b7c8f;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-badge">F</div>
+      <div>Fairplay Rail</div>
+    </div>
+    <div class="timer">Tatkal Demo Page</div>
+  </div>
+
+  <div class="container">
+    <div class="title">
+      <h1>Tatkal Booking Flow</h1>
+      <p>
+        This page simulates the high-pressure Tatkal booking stage where bot activity is most harmful.
+        Your mouse and interaction pattern will be checked before showing a result.
+      </p>
+    </div>
+
+    <div class="layout">
+      <div>
+        <div class="card">
+          <div class="card-header">Search Trains</div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label>From Station</label>
+              <input type="text" placeholder="Enter departure station" />
+            </div>
+
+            <div class="field">
+              <label>To Station</label>
+              <input type="text" placeholder="Enter destination station" />
+            </div>
+
+            <div class="field">
+              <label>Date of Journey</label>
+              <input type="date" />
+            </div>
+
+            <div class="field">
+              <label>Class</label>
+              <select>
+                <option>2A</option>
+                <option>3A</option>
+                <option>SL</option>
+                <option>CC</option>
+                <option>3E</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label>Quota</label>
+              <select id="quotaSelect">
+                <option>General</option>
+                <option selected>Tatkal</option>
+                <option>Premium Tatkal</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="buttons">
+            <button class="btn btn-primary" onclick="showTrains()">Search Trains</button>
+            <button class="btn btn-secondary" onclick="resetPage()">Reset</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 18px;">
+          <div class="card-header">Available Trains</div>
+          <div class="train-list">
+            <div class="train">
+              <div class="train-top">
+                <div class="train-name">Sample Express (12345)</div>
+                <div class="tag">Tatkal Available</div>
+              </div>
+              <div class="train-meta">
+                Departure: 10:30 | Arrival: 18:45<br/>
+                Class: 3A | Quota: Tatkal
+              </div>
+              <div class="action-row">
+                <button class="book-btn" onclick="startBotCheck()">Book Now</button>
+                <span style="font-size: 13px; color: #64748b;">This is where the anti-bot demo starts.</span>
+              </div>
+            </div>
+
+            <div class="train">
+              <div class="train-top">
+                <div class="train-name">Demo Mail (67890)</div>
+                <div class="tag">Limited Seats</div>
+              </div>
+              <div class="train-meta">
+                Departure: 14:15 | Arrival: 22:10<br/>
+                Class: SL | Quota: Tatkal
+              </div>
+              <div class="action-row">
+                <button class="book-btn" onclick="startBotCheck()">Book Now</button>
+                <span style="font-size: 13px; color: #64748b;">Use this to test human vs bot detection.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-stack">
+        <div class="card">
+          <div class="card-header">Important Notes</div>
+          <div class="info">
+            <ul style="padding-left: 18px;">
+              <li>In the real Tatkal flow, time pressure is very high.</li>
+              <li>Our demo checks user behavior before proceeding.</li>
+              <li>Only suspicious activity should be challenged or blocked.</li>
+              <li>Use natural mouse movement to test the human path.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Bot Check Result</div>
+          <div class="result-box">
+            <h3>Detection Status</h3>
+            <div id="result" class="result">
+              Click <b>Book Now</b> to run the anti-bot check.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      © 2026 Fairplay Rail — Tatkal booking simulation for hackathon demo
+    </div>
+  </div>
+
+  <script>
+    let mouseData = [];
+    let isTracking = false;
+    let startTime = 0;
+
+    document.addEventListener('mousemove', function(event) {
+      if (!isTracking) return;
+      mouseData.push({
+        x: event.clientX,
+        y: event.clientY,
+        time: Date.now() - startTime
+      });
+    });
+
+    function startBotCheck() {
+      mouseData = [];
+      isTracking = true;
+      startTime = Date.now();
+      document.getElementById('result').innerHTML =
+        '<span style="color:#1f4e79;font-weight:700;">Checking user behavior...</span><br>Move your mouse naturally for 3–5 seconds, then click “Run Detection”.';
+
+      setTimeout(() => {
+        document.getElementById('result').innerHTML =
+          '<button class="book-btn" onclick="runDetection()">Run Detection</button> ' +
+          '<span style="font-size:13px;color:#64748b;">You can now submit the collected movement.</span>';
+      }, 1200);
+    }
+
+    function runDetection() {
+      isTracking = false;
+
+      document.getElementById('result').innerHTML = '⏳ Checking...';
+
+      fetch('http://localhost:5000/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mouseData: mouseData })
+      })
+      .then(response => response.json())
+      .then(result => {
+        const box = document.getElementById('result');
+
+        if (result.prediction === 'BOT') {
+          box.innerHTML =
+            '<span class="bot">BOT detected</span><br>' +
+            'Average speed: ' + result.average_speed + '<br>' +
+            'Confidence: ' + result.confidence + '%<br>' +
+            'Action: Block or challenge';
+        } else if (result.prediction === 'SUSPICIOUS') {
+          box.innerHTML =
+            '<span class="suspicious">SUSPICIOUS activity</span><br>' +
+            'Average speed: ' + result.average_speed + '<br>' +
+            'Confidence: ' + result.confidence + '%<br>' +
+            'Action: Show verification';
+        } else {
+          box.innerHTML =
+            '<span class="human">HUMAN detected</span><br>' +
+            'Average speed: ' + result.average_speed + '<br>' +
+            'Confidence: ' + result.confidence + '%<br>' +
+            'Action: Allow booking';
+        }
+      })
+      .catch(error => {
+        document.getElementById('result').innerHTML = 'Error connecting to backend.';
+        console.error(error);
+      });
+    }
+
+    function showTrains() {
+      document.getElementById('result').innerHTML =
+        'Trains loaded. Click <b>Book Now</b> to start the anti-bot check.';
+    }
+
+    function resetPage() {
+      mouseData = [];
+      isTracking = false;
+      document.getElementById('quotaSelect').selectedIndex = 1;
+      document.getElementById('result').innerHTML =
+        'Click <b>Book Now</b> to run the anti-bot check.';
+    }
+  </script>
+</body>
+</html>
