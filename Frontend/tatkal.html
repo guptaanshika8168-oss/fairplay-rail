@@ -5,17 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fairplay Rail - Tatkal Booking</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      background: #eef4fb;
-      color: #1f2d3d;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #eef4fb; color: #1f2d3d; }
 
     .topbar {
       background: #1f4e79;
@@ -25,6 +16,9 @@
       align-items: center;
       justify-content: space-between;
       box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     .brand {
@@ -58,25 +52,25 @@
       font-weight: 700;
     }
 
-    .container {
-      max-width: 1180px;
-      margin: 24px auto;
-      padding: 0 20px 30px;
-    }
+    .container { max-width: 1180px; margin: 24px auto; padding: 0 20px 30px; }
 
     .title {
       margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 16px;
+      align-items: center;
     }
 
-    .title h1 {
-      font-size: 30px;
-      color: #183a5a;
-      margin-bottom: 6px;
-    }
+    .title h1 { font-size: 30px; color: #183a5a; margin-bottom: 6px; }
+    .title p { color: #5b6d80; line-height: 1.5; }
 
-    .title p {
-      color: #5b6d80;
-      line-height: 1.5;
+    .title img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
     }
 
     .layout {
@@ -109,20 +103,9 @@
       gap: 14px;
     }
 
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .field label {
-      font-size: 14px;
-      font-weight: 700;
-      color: #35556f;
-    }
-
-    .field input,
-    .field select {
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field label { font-size: 14px; font-weight: 700; color: #35556f; }
+    .field input, .field select {
       padding: 13px 14px;
       border: 1px solid #cdd9e6;
       border-radius: 10px;
@@ -131,9 +114,7 @@
       background: #fff;
     }
 
-    .full {
-      grid-column: 1 / -1;
-    }
+    .full { grid-column: 1 / -1; }
 
     .buttons {
       padding: 0 18px 18px;
@@ -151,15 +132,8 @@
       cursor: pointer;
     }
 
-    .btn-primary {
-      background: #1f4e79;
-      color: white;
-    }
-
-    .btn-secondary {
-      background: #e8eef5;
-      color: #1f3550;
-    }
+    .btn-primary { background: #1f4e79; color: white; }
+    .btn-secondary { background: #e8eef5; color: #1f3550; }
 
     .train-list {
       padding: 18px;
@@ -182,11 +156,7 @@
       margin-bottom: 8px;
     }
 
-    .train-name {
-      font-weight: 700;
-      color: #183a5a;
-    }
-
+    .train-name { font-weight: 700; color: #183a5a; }
     .tag {
       background: #dbeafe;
       color: #1d4ed8;
@@ -220,31 +190,21 @@
       cursor: pointer;
     }
 
-    .book-btn:hover {
-      background: #0b5f59;
+    .book-btn:hover { background: #0b5f59; }
+
+    .side-stack { display: grid; gap: 18px; }
+
+    .info { padding: 18px; font-size: 14px; line-height: 1.7; color: #52657a; }
+
+    .side-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid #e3ebf4;
     }
 
-    .side-stack {
-      display: grid;
-      gap: 18px;
-    }
-
-    .info {
-      padding: 18px;
-      font-size: 14px;
-      line-height: 1.7;
-      color: #52657a;
-    }
-
-    .result-box {
-      padding: 18px;
-      min-height: 220px;
-    }
-
-    .result-box h3 {
-      color: #20496f;
-      margin-bottom: 10px;
-    }
+    .result-box { padding: 18px; min-height: 220px; }
+    .result-box h3 { color: #20496f; margin-bottom: 10px; }
 
     .result {
       margin-top: 14px;
@@ -268,13 +228,9 @@
     }
 
     @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
+      .layout { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .title { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -289,11 +245,14 @@
 
   <div class="container">
     <div class="title">
-      <h1>Tatkal Booking Flow</h1>
-      <p>
-        This page simulates the high-pressure Tatkal booking stage where bot activity is most harmful.
-        Your mouse and interaction pattern will be checked before showing a result.
-      </p>
+      <div>
+        <h1>Tatkal Booking Flow</h1>
+        <p>
+          This page simulates the high-pressure Tatkal booking stage where bot activity is most harmful.
+          Your mouse and interaction pattern will be checked before showing a result.
+        </p>
+      </div>
+      <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80" alt="Train station">
     </div>
 
     <div class="layout">
@@ -382,6 +341,7 @@
 
       <div class="side-stack">
         <div class="card">
+          <img class="side-image" src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=1200&q=80" alt="Train">
           <div class="card-header">Important Notes</div>
           <div class="info">
             <ul style="padding-left: 18px;">
